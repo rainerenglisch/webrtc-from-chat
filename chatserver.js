@@ -29,6 +29,9 @@
 var http = require('http');
 var https = require('https');
 var fs = require('fs');
+var nstatic = require('node-static');
+var file = new(nstatic.Server)();
+
 var WebSocketServer = require('websocket').server;
 
 // Pathnames of the SSL key and certificate files to use for
@@ -193,10 +196,12 @@ if (!webServer) {
 // want to, you can return real HTML here and serve Web content.
 
 function handleWebRequest(request, response) {
-  log ("Received request for " + request.url);
-  response.writeHead(404);
-  response.end();
+  log("Received request for " + request.url);
+  //response.writeHead(404);
+  //response.end();
+  file.serve(request, response);
 }
+
 
 // Spin up the HTTPS server on the port assigned to this sample.
 // This will be turned into a WebSocket port very shortly.
