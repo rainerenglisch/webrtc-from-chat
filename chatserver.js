@@ -30,7 +30,12 @@ var http = require('http');
 var https = require('https');
 var fs = require('fs');
 var nstatic = require('node-static');
-var file = new(nstatic.Server)();
+//var file = new(nstatic.Server)();
+const express = require('express');
+const app = express();
+
+app.use(express.static('public'));
+app.listen(process.env.PORT || 8080, () => console.log(`Your app is listening on port ${process.env.PORT || 8080}`));
 
 var WebSocketServer = require('websocket').server;
 
