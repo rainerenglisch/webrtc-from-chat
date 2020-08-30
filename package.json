@@ -16,9 +16,9 @@
     "start": "node chatserver.js"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "node-static": "^0.7.11",
     "webrtc-adapter": "^7.7.0",
-    "websocket": "^1.0.32",
-    "express": "^4.17.1"
+    "websocket": "^1.0.32"
   }
 }

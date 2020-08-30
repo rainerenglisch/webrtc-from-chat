@@ -29,24 +29,30 @@
 var http = require('http');
 var https = require('https');
 var fs = require('fs');
-var nstatic = require('node-static');
+//var nstatic = require('node-static');
 //var file = new(nstatic.Server)();
 const express = require('express');
 const app = express();
 
-app.use(express.static('public'));
-app.listen(process.env.PORT || 8080, () => console.log(`Your app is listening on port ${process.env.PORT || 8080}`));
-
-var WebSocketServer = require('websocket').server;
-
 // Pathnames of the SSL key and certificate files to use for
 // HTTPS connections.
-
-//const keyFilePath = "/etc/pki/tls/private/mdn-samples.mozilla.org.key";
-//const certFilePath = "/etc/pki/tls/certs/mdn-samples.mozilla.org.crt";
-
 const keyFilePath = "key.pem";
 const certFilePath = "cert.pem";
+var privateKey  = fs.readFileSync(keyFilePath, 'utf8');
+var certificate = fs.readFileSync(certFilePath, 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+
+var httpsServer = https.createServer(credentials, app);
+
+app.use(express.static('public'));
+
+httpsServer.listen(8443, () => console.log(`Your app is listening on port 8443`));
+
+//app.listen(process.env.PORT || 8080, () => console.log(`Your app is listening on port ${process.env.PORT || 8080}`));
+
+
+
+var WebSocketServer = require('websocket').server;
 
 // Used for managing the text chat user list.
 
